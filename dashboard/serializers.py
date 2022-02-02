@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from dashboard.models import Utilization
 
-class DepartmentSerializer(serializers.ModelSerializer):
+class UtilizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Utilization
         fields = ('AssayID',
