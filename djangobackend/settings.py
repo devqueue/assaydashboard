@@ -39,9 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders'
     'rest_framework'
+    'dashboard',
 ]
 
-
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3030',
+# ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
