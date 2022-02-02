@@ -15,6 +15,6 @@ class Utilization(models.Model):
     October = models.FloatField()
     November = models.FloatField()
     December = models.FloatField()
-    year = models.IntegerField(max_length=4)
+    year = models.IntegerField()
     MonthlyIndex = models.FloatField()
 
