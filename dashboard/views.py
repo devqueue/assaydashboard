@@ -26,7 +26,7 @@ def utilizationApi(request, id=0):
     
     elif request.method == 'PUT':
         utilization_data  = JSONParser().parse(request)
-        utilization = Utilization.objects.get(AssayID=utilization_data['utilization_data'])
+        utilization = Utilization.objects.get(AssayID=utilization_data['AssayID'])
         utilization_serializer = UtilizationSerializer(utilization, data=utilization_data)
 
         if utilization_serializer.is_valid():

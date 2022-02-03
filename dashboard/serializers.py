@@ -17,6 +17,7 @@ class UtilizationSerializer(serializers.ModelSerializer):
                   'October',
                   'November',
                   'December',
+                  'Year',
                   'MonthlyIndex',
                   )
 

@@ -1,6 +1,9 @@
 from django.db import models
-
+import datetime
 # Create your models here.
+
+def current_year():
+    return datetime.date.today().year
 class Utilization(models.Model):
     AssayID = models.AutoField(primary_key=True)
     Assay = models.CharField(max_length=100)
@@ -15,6 +18,6 @@ class Utilization(models.Model):
     October = models.FloatField()
     November = models.FloatField()
     December = models.FloatField()
-    Year = models.IntegerField()
+    Year = models.IntegerField(default=current_year)
     MonthlyIndex = models.FloatField()
 
