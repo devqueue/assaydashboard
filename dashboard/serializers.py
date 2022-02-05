@@ -19,7 +19,7 @@ class UtilizationSerializer(serializers.ModelSerializer):
 
 class UtilizationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Processed
+        model = Revenue
         fields = '__all__'
 
 
