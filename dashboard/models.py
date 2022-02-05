@@ -5,7 +5,7 @@ import datetime
 def current_year():
     return datetime.date.today().year
 class Utilization(models.Model):
-    AssayID = models.AutoField(primary_key=True)
+    AssayID = models.IntegerField(primary_key=True)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
@@ -22,7 +22,7 @@ class Utilization(models.Model):
     MonthlyIndex = models.FloatField()
 
 class Processed(models.Model):
-    TestID = models.AutoField(primary_key=True)
+    TestID = models.IntegerField(primary_key=True)
     Test = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
@@ -39,7 +39,7 @@ class Processed(models.Model):
     MonthlyIndex = models.FloatField()
 
 class Revenue(models.Model):
-    TestID = models.AutoField(primary_key=True)
+    TestID = models.IntegerField(primary_key=True)
     Test = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
