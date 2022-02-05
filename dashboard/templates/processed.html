@@ -32,17 +32,15 @@
 
   <div class="container mt-3">
       <h3 class='m-3 d-flex justify-content-center'>
-        Utilization (Hr)
+        Prcessed (Hr)
       </h3>
-
       <div class='selectBox'>
-          <select id="dropdown">
-            {% for i,j in label%}
-            <option value={{j}}>{{i}}</option>
-            {% endfor %}
-          </select>
-        </div>
-      <br>
+        <select id="dropdown">
+          {% for i,j in label%}
+          <option value={{j}}>{{i}}</option>
+          {% endfor %}
+        </select>
+      </div>
       <br>
       <div class="">
       <div class="md-3">
@@ -58,6 +56,7 @@
       </div>
 
       </div>
+
       <br>
       <div class='chart-container'>
         <canvas id="myChart"></canvas>
