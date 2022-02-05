@@ -11,13 +11,13 @@ class UtilizationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UtilizationSerializer(serializers.ModelSerializer):
+class ProcessedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Processed
         fields = '__all__'
 
 
-class UtilizationSerializer(serializers.ModelSerializer):
+class RevenueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Revenue
         fields = '__all__'
