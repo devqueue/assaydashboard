@@ -123,7 +123,7 @@ dropdown.addEventListener('change', changechart)
 
 function changechart(){
   const Http = new XMLHttpRequest();
-  const url='http://127.0.0.1:8000/utilization/' + dropdown.value;
+  const url='http://127.0.0.1:8000/processapi/' + dropdown.value;
   console.log(dropdown.value);
   Http.open("GET", url);
   Http.send();

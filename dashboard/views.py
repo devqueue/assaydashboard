@@ -46,14 +46,15 @@ def utilizationApi(request, id=0):
 
 @csrf_exempt
 def processedApi(request, id=0):
+    months = ['January', 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'MonthlyIndex']
     if request.method == 'GET':
-        try:
-            processed = Processed.objects.get(TestID=id)
-            processed_serializer = ProcessedSerializer(processed)
-            processed_df = pd.DataFrame(processed_serializer.data, index=[0])
-            data = processed_df.select_dtypes(include ='float64').iloc[0].to_list()
+        # try:
+            processed = Processed.objects.all()
+            processed_serializer = ProcessedSerializer(processed, many=True)
+            processed_df = pd.DataFrame(processed_serializer.data)
+            data = processed_df[months[int(id)]].to_list()
             return JsonResponse(data, safe=False)
-        except:
+        # except:
             return JsonResponse("Failed to get", safe=False)
     
     elif request.method == 'POST':
@@ -138,11 +139,20 @@ def processpage(request):
     Processed_serializer = ProcessedSerializer(processed, many=True)
     Processed_df = pd.DataFrame(Processed_serializer.data)
 
-    label = Processed_df['Test'].to_list()
+    label_raw = Processed_df.columns.to_list()
 
-    context = {"label": zip(label, range(1, len(label))), 
-               "labels": Processed_df.select_dtypes(include ='float64').columns.to_list(),
-               "data": Processed_df.loc[Processed_df['TestID'] == 1].select_dtypes(include ='float64').iloc[0].to_list(),
+    def month(item):
+        months = ['January', 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'MonthlyIndex']
+        if (item in months):
+            return True
+        else:
+            return False
+
+    label = list(filter(month, label_raw))
+    print(label)
+    context = {"label": zip(label, range(0, len(label))), 
+               "labels": Processed_df['Test'].to_list(),
+               "data": Processed_df['January'].to_list(),
     }
     if request.method == 'GET':
 
