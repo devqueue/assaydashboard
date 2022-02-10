@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'favicon.ico' %}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap css and JS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Chart.js  -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style type="text/css">
+      canvas {
+        border: 1px;
+      }
+
+      .chart-container {
+        position: relative;
+        margin: auto;
+        height: 40vh;
+        width: 50vw;
+      }
+    </style>
+    <title>Assay Dashboard</title>
+
+</head>
+<body>
+
+  <div class="container mt-3">
+      <h3 class='m-3 d-flex justify-content-center'>
+        Prcessed (Hr)
+      </h3>
+      <div class='selectBox'>
+        <select id="dropdown">
+          {% for i,j in label%}
+          <option value={{j}}>{{i}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <br>
+      <div class="">
+      <div class="md-3">
+           <a href="/"><button class="btn btn-primary btn-lg">Utilization</button></a>
+      </div>
+      <br>
+      <div class="md-3">
+          <a href="/process"><button class="btn btn-primary btn-lg">process</button></a>
+      </div>
+      <br>
+      <div class="md-3">
+          <a href="/revenue"><button class="btn btn-primary btn-lg" >revenue</button></a>
+      </div>
+
+      </div>
+
+      <br>
+      <div class='chart-container'>
+        <canvas id="myChart"></canvas>
+      </div>
+      <br>
+      <div class=''>
+        <!-- <canvas id="myChart2"></canvas> -->
+      </div>
+  </div>
+  <script>
+    function getRandomColor(count) {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        let array = []
+        for (var j=0; j< count; j++){
+          for (var i = 0; i < 6; i++ ) {
+              color += letters[Math.floor(Math.random() * 16)];
+          }
+          array.push(color);
+          color = '#'
+      }
+        return array;
+    }
+var data_from_temp =  {{data|safe}}
+var label_from_temp = {{labels|safe}}
+const ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: label_from_temp ,
+        datasets: [{
+            label: 'utilization',
+            data: data_from_temp,
+            backgroundColor: [
+                'rgba(255, 99, 132, 99)',
+                'rgba(54, 162, 235, 99)',
+                'rgba(255, 206, 86, 99)',
+                'rgba(75, 192, 192, 99)',
+                'rgba(153, 102, 255, 99)',
+                'rgba(255, 159, 64, 99)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+const dropdown = document.getElementById('dropdown');
+dropdown.addEventListener('change', changechart)
+
+function changechart(){
+  const Http = new XMLHttpRequest();
+  const url='http://127.0.0.1:8000/processapi/' + dropdown.value;
+  console.log(dropdown.value);
+  Http.open("GET", url);
+  Http.send();
+  Http.onreadystatechange = (e) => {
+        console.log(Http.responseText);
+        var data_array = new Array();
+        data_array = Http.responseText.slice( 1, -1).split(",");
+        for (a in data_array ) {
+        data_array[a] = parseFloat(data_array[a]);
+        }
+        myChart.data.datasets[0].data = data_array
+        myChart.update();
+  }
+}
+
+
+
+</script>
+</body>
+</html>
