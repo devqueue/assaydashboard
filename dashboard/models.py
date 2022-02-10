@@ -19,7 +19,6 @@ class Utilization(models.Model):
     November = models.FloatField()
     December = models.FloatField()
     Year = models.IntegerField(default=current_year)
-    MonthlyIndex = models.FloatField()
 
 class Processed(models.Model):
     TestID = models.IntegerField(primary_key=True)
@@ -36,7 +35,6 @@ class Processed(models.Model):
     November = models.FloatField()
     December = models.FloatField()
     Year = models.IntegerField(default=current_year)
-    MonthlyIndex = models.FloatField()
 
 class Revenue(models.Model):
     TestID = models.IntegerField(primary_key=True)
@@ -53,5 +51,4 @@ class Revenue(models.Model):
     November = models.FloatField()
     December = models.FloatField()
     Year = models.IntegerField(default=current_year)
-    MonthlyIndex = models.FloatField()
 
