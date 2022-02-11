@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Dashboard {% block title %}{% endblock %}</title>
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <!-- <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css"> -->
-    <!-- <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css"> -->
+    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
     <!-- important stylesheet -->
-    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/soft-ui-dashboard.min.css?v=1.0.2">
+    <link rel="stylesheet" href="{% static 'assets/css/loopple/dashboard.css' %} ">
+    <link rel="stylesheet" href="{% static 'assets/css/loopple/loopple.css' %} ">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-    <link rel="stylesheet" href="./assets/css/loopple/loopple.css">
 </head>
 
 <body class="g-sidenav-show">
@@ -124,7 +126,7 @@
         </div>
     </nav>
     <div class="main-content" id="panel">
-        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 mt-3 shadow-none border-radius-xl" id="navbarTop">
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 mt-3 shadow-none border-radius-xl" id="navbarTop">
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
 
@@ -155,7 +157,7 @@
             </div>
         </nav>
         <div class="container-fluid pt-3">
-            <div class="row text-center position-absolute w-100 h-100">
+            <div class="row text-center position-absolute d-flex align-items-center">
                 <!-- Add code here -->
                 {% block content %}{% endblock %}
             </div>
@@ -166,6 +168,6 @@
     <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/core/popper.min.js"></script>
     <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/core/bootstrap.min.js"></script>
     <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/soft-ui-dashboard.min.js?v=1.0.2"></script>
-    <script src="./assets/js/loopple/loopple.js"></script>
+    <script src="{% static 'assets/js/loopple/loopple.js' %}"></script>
 </body>
 </html>
