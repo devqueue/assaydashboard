@@ -121,18 +121,39 @@ def revenueapi(request, id=0):
 
 
 def indexpage(request):
-    utilization = Utilization.objects.all()
-    utilization_serializer = UtilizationSerializer(utilization, many=True)
-    utilization_df = pd.DataFrame(utilization_serializer.data)
-    label = utilization_df['Assay'].to_list()
+    # utilization = Utilization.objects.all()
+    # utilization_serializer = UtilizationSerializer(utilization, many=True)
+    # utilization_df = pd.DataFrame(utilization_serializer.data)
+    # label = utilization_df['Assay'].to_list()
 
-    context = {"label": zip(label, range(1, len(label))), 
-               "labels": utilization_df.select_dtypes(include ='float64').columns.to_list(),
-               "data": utilization_df.loc[utilization_df['AssayID'] == 1].select_dtypes(include ='float64').loc[0].to_list(),
-    }
+    # context = {"label": zip(label, range(1, len(label))), 
+    #            "labels": utilization_df.select_dtypes(include ='float64').columns.to_list(),
+    #            "data": utilization_df.loc[utilization_df['AssayID'] == 1].select_dtypes(include ='float64').loc[0].to_list(),
+    # }
     if request.method == 'GET':
 
-        return render(request, 'index.html', context)
+        return render(request, 'dashboard/index.html')
+
+
+
+def sample(request):
+    if request.method == 'GET':
+
+        return render(request, 'dashboard/sample.html')
+
+def util(request):
+    if request.method == 'GET':
+
+        return render(request, 'dashboard/utilization.html')
+
+def revenue(request):
+    if request.method == 'GET':
+
+        return render(request, 'dashboard/revenue.html')
+
+
+
+
 
 def processpage(request):
     processed = Processed.objects.all()
