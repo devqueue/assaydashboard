@@ -21396,9 +21396,6 @@ hr.horizontal.gray-light {
     }
 }
 
-.navbar-vertical.bg-white {
-    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, .05)
-}
 
 .navbar-vertical.bg-white .navbar-nav .nav-link.active {
     box-shadow: none
