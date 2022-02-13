@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterUserForm
 
 def login_user(request):
@@ -13,10 +12,8 @@ def login_user(request):
 			login(request, user)
 			return redirect('home')
 		else:
-			messages.success(request, ("There Was An Error Logging In, Try Again..."))	
-			return redirect('login')	
-
-
+			messages.success(request, ("Username or password incorrect. Try again.."))	
+			return redirect('login')
 	else:
 		return render(request, 'authenticate/login.html', {})
 
@@ -40,7 +37,5 @@ def register_user(request):
 	else:
 		form = RegisterUserForm()
 
-	return render(request, 'authenticate/register_user.html', {
-		'form':form,
-		})
+	return render(request, 'authenticate/register_user.html', {'form':form,})
 
