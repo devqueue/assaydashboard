@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 1.postdata
+media/
 # C extensions
 *.so
 
