@@ -3,8 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 import pandas as pd
-from dashboard.models import Utilization, Processed, Revenue
-from dashboard.serializers import UtilizationSerializer, ProcessedSerializer, RevenueSerializer
+from dashboard.models import Utilization, Samples, Revenue
+from dashboard.serializers import UtilizationSerializer, SamplesSerializer, RevenueSerializer
 # Create your views here.
 
 @csrf_exempt
@@ -45,12 +45,12 @@ def utilizationApi(request, id=0):
             
 
 @csrf_exempt
-def processedApi(request, id=0):
+def SamplesApi(request, id=0):
     months = ['January', 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'MonthlyIndex']
     if request.method == 'GET':
         # try:
-            processed = Processed.objects.all()
-            processed_serializer = ProcessedSerializer(processed, many=True)
+            processed = Samples.objects.all()
+            processed_serializer = SamplesSerializer(processed, many=True)
             processed_df = pd.DataFrame(processed_serializer.data)
             data = processed_df[months[int(id)]].to_list()
             return JsonResponse(data, safe=False)
@@ -59,7 +59,7 @@ def processedApi(request, id=0):
     
     elif request.method == 'POST':
         processed_data  = JSONParser().parse(request)
-        processed_serializer = ProcessedSerializer(data=processed_data)
+        processed_serializer = SamplesSerializer(data=processed_data)
 
         if processed_serializer.is_valid():
             processed_serializer.save()
@@ -68,8 +68,8 @@ def processedApi(request, id=0):
     
     elif request.method == 'PUT':
         processed_data  = JSONParser().parse(request)
-        processed = Processed.objects.get(TestID=processed_data['TestID'])
-        processed_serializer = ProcessedSerializer(processed, data=processed_data)
+        processed = Samples.objects.get(TestID=processed_data['TestID'])
+        processed_serializer = SamplesSerializer(processed, data=processed_data)
 
         if processed_serializer.is_valid():
             processed_serializer.save()
@@ -77,7 +77,7 @@ def processedApi(request, id=0):
         return JsonResponse("Failed to Update", safe=False)
     
     elif request.method == 'DELETE':
-        processed = Processed.objects.get(TestID=id)
+        processed = Samples.objects.get(TestID=id)
         processed.delete()
         return JsonResponse("Deleted sucessfully", safe=False)
 
@@ -156,8 +156,8 @@ def revenue(request):
 
 
 def processpage(request):
-    processed = Processed.objects.all()
-    Processed_serializer = ProcessedSerializer(processed, many=True)
+    processed = Samples.objects.all()
+    Processed_serializer = SamplesSerializer(processed, many=True)
     Processed_df = pd.DataFrame(Processed_serializer.data)
 
     label_raw = Processed_df.columns.to_list()
