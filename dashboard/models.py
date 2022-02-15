@@ -7,12 +7,13 @@ def current_year():
 
 
 class Samples(models.Model):
-    TestID = models.CharField(primary_key=True, max_length=10)
-    Test = models.CharField(max_length=100)
+    AssayID = models.CharField(primary_key=True, max_length=10)
+    Assay = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
     March = models.FloatField()
     April = models.FloatField()
+    May = models.FloatField()
     June = models.FloatField()
     July = models.FloatField()
     August = models.FloatField()
@@ -30,6 +31,7 @@ class Utilization(models.Model):
     February = models.FloatField()
     March = models.FloatField()
     April = models.FloatField()
+    May = models.FloatField()
     June = models.FloatField()
     July = models.FloatField()
     August = models.FloatField()
@@ -41,12 +43,13 @@ class Utilization(models.Model):
 
 
 class Revenue(models.Model):
-    TestID = models.CharField(primary_key=True, max_length=10)
-    Test = models.CharField(max_length=100)
+    AssayID = models.CharField(primary_key=True, max_length=10)
+    Assay = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
     March = models.FloatField()
     April = models.FloatField()
+    May = models.FloatField()
     June = models.FloatField()
     July = models.FloatField()
     August = models.FloatField()
