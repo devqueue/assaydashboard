@@ -59,3 +59,9 @@ class Revenue(models.Model):
     December = models.FloatField()
     Year = models.IntegerField(default=current_year)
 
+
+class stats(models.Model):
+    AssayID = models.CharField(primary_key=True, max_length=10)
+    FullCapacity = models.FloatField()
+    RunTime = models.FloatField()
+    Price = models.FloatField()
