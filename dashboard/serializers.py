@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import Utilization
-from dashboard.models import Samples
-from dashboard.models import Revenue
+from dashboard.models import Utilization, Samples, Revenue, MissedRevenue
 
 
 
@@ -20,6 +18,12 @@ class SamplesSerializer(serializers.ModelSerializer):
 class RevenueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Revenue
+        fields = '__all__'
+
+
+class MissedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MissedRevenue
         fields = '__all__'
 
 
