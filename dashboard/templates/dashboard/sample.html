@@ -3,6 +3,29 @@
 {% block title %}Sample{% endblock %}
 
 {% block content %}
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="text-center d-flex align-items-center justify-content-center">
 <h3> Sample </h3>
+</div>
+<br>
+<div class="row">
+
+<div class="col-md-6 pt-1">
+<label for="year">Year: </label>
+<select name="year" id="year" class="form-select" aria-label="Default select example">
+    {% for year in years %}
+    <option value="{{year}}">{{year}}</option>
+    {% endfor %}
+</select>
+</div>
+
+<div class="col-md-6 pt-1">
+<label for="month">Month: </label>
+<select name="month" id="month" class="form-select form-select-sm" aria-label=".form-select-sm example">
+    {% for month in Months %}
+    <option value="{{month}}">{{month}}</option>
+    {% endfor %}
+</select>
+</div>
+
 {% endblock %}
