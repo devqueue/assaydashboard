@@ -8,6 +8,7 @@ def current_year():
 
 class Samples(models.Model):
     AssayID = models.CharField(primary_key=True, max_length=10)
+    MachineID = models.CharField(max_length=100)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
@@ -26,6 +27,7 @@ class Samples(models.Model):
 
 class Utilization(models.Model):
     AssayID = models.CharField(primary_key=True, max_length=10)
+    MachineID = models.CharField(max_length=100)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
@@ -44,6 +46,7 @@ class Utilization(models.Model):
 
 class Revenue(models.Model):
     AssayID = models.CharField(primary_key=True, max_length=10)
+    MachineID = models.CharField(max_length=100)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
@@ -61,6 +64,7 @@ class Revenue(models.Model):
 
 class MissedRevenue(models.Model):
     AssayID = models.CharField(primary_key=True, max_length=10)
+    MachineID = models.CharField(max_length=100)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
     February = models.FloatField()
@@ -79,12 +83,15 @@ class MissedRevenue(models.Model):
 
 class stats(models.Model):
     AssayID = models.CharField(primary_key=True, max_length=10)
+    MachineID = models.CharField(max_length=100)
     FullCapacity = models.FloatField()
     RunTime = models.FloatField()
     Price = models.FloatField()
+    Maintenance = models.FloatField()
 
 class monthlystats(models.Model):
     AssayID = models.CharField(primary_key=True, max_length=10)
+    MachineID = models.CharField(max_length=100)
     MaxMonthlyhours = models.FloatField()
     MaxMonthlyRevenue = models.FloatField()
     MaxMonthSamples = models.FloatField()
