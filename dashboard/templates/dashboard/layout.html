@@ -13,10 +13,39 @@
     <link rel="stylesheet" href="{% static 'assets/css/loopple/dashboard.css' %} ">
     <link rel="stylesheet" href="{% static 'assets/css/loopple/loopple.css' %} ">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+      .chartCard {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chartBox {
+        width: 50%;
+        padding: 20px;
+        border-radius: 20px;
+        border: solid 3px rgb(203,12,159);
+        background: white;
+      }
+      .chartBox-wide {
+        width: 100%;
+        padding: 20px;
+        border-radius: 20px;
+        border: solid 3px rgb(203,12,159);
+        background: white;
+      }
+      .fixnav-custom {
+        position: fixed !important; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        overflow-x: hidden; /* Disable horizontal scroll */
+      }
+    </style>
+
 </head>
 
 <body class="g-sidenav-show">
-    <nav class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start position-absolute ms-3 bg-white" id="sidenav-main">
+    <nav class="fixnav-custom sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start position-absolute ms-3 bg-white" id="sidenav-main">
         <div class="collapse navbar-collapse no-overflow w-auto" id="sidenav-collapse-main">
             <ul class="navbar-nav no-overflow">
                 <li class="nav-item">
@@ -146,7 +175,7 @@
                         </li>
                         {% endif %}
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'logout' %}"><input type="submit" value="Logout" class="btn btn-secondary"></a>
+                        <a href="{% url 'logout' %}"><input type="submit" value="Logout" class="btn btn-xs btn-outline-primary"></a>
                         {% endif %}
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
@@ -188,7 +217,6 @@
         </div>
 
     </div>
-  
     <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/core/popper.min.js"></script>
     <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/core/bootstrap.min.js"></script>
     <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/soft-ui-dashboard.min.js?v=1.0.2"></script>
