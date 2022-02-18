@@ -17,9 +17,10 @@ def upload_file(request):
          
         # Populate the stats
         df_stats = create_stats()
-
         stats_instances = [stats(
             AssayID = rec['AssayID'],
+            MachineID = rec['MachineID'],
+            Maintenance = rec['Maintenance'],
             FullCapacity = rec['Full capacity'],
             RunTime = rec['Run time'],
             Price = rec['Price']
@@ -27,12 +28,13 @@ def upload_file(request):
         try:
             stats.objects.bulk_create(stats_instances)
         except:
-            stats.objects.bulk_update(stats_instances, fields=['FullCapacity', 'RunTime', 'Price'])
+            stats.objects.bulk_update(stats_instances, fields=['FullCapacity', 'RunTime', 'Price', 'Maintenance'])
 
         # Populate the samples
         df_samples = create_df(obj.file_name.path)
         sample_instances = [Samples(
             AssayID = record['AssayID'],
+            MachineID = record['MachineID'],
             Assay = record['Assay'],
             January = record['January'],
             February = record['February'],
@@ -46,7 +48,7 @@ def upload_file(request):
             October = record['October'],
             November = record['November'],
             December = record['December'],
-            Year = record['year']
+            Year = record['Year']
         ) for record in df_samples]
 
         try:
@@ -61,6 +63,7 @@ def upload_file(request):
         revenue_dict = calculate_revenue(df_samples, df_stats)
         Revenue_instances = [Revenue(
             AssayID = record['AssayID'],
+            MachineID = record['MachineID'],
             Assay = record['Assay'],
             January = record['January'],
             February = record['February'],
@@ -74,7 +77,7 @@ def upload_file(request):
             October = record['October'],
             November = record['November'],
             December = record['December'],
-            Year = record['year']
+            Year = record['Year']
         ) for record in revenue_dict]
 
         try:
@@ -89,6 +92,7 @@ def upload_file(request):
         utilization_dict = calculate_utilization(df_samples, df_stats)
         util_instances = [Utilization(
             AssayID = record['AssayID'],
+            MachineID = record['MachineID'],
             Assay = record['Assay'],
             January = record['January'],
             February = record['February'],
@@ -102,7 +106,7 @@ def upload_file(request):
             October = record['October'],
             November = record['November'],
             December = record['December'],
-            Year = record['year']
+            Year = record['Year']
         ) for record in utilization_dict]
 
         try:
@@ -117,6 +121,7 @@ def upload_file(request):
         monthly_stats = get_fullcapacity(df_samples, df_stats)
         mstats_instances = [monthlystats(
             AssayID = rec['AssayID'],
+            MachineID = rec['MachineID'],
             MaxMonthlyhours = rec['MaxMonthlyhours'],
             MaxMonthlyRevenue = rec['MaxMonthlyRevenue'],
             MaxMonthSamples = rec['MaxMonthlySamples']
@@ -134,6 +139,7 @@ def upload_file(request):
 
         Missed_instances = [MissedRevenue(
             AssayID = record['AssayID'],
+            MachineID = record['MachineID'],
             Assay = record['Assay'],
             January = record['January'],
             February = record['February'],
@@ -147,7 +153,7 @@ def upload_file(request):
             October = record['October'],
             November = record['November'],
             December = record['December'],
-            Year = record['year']
+            Year = record['Year']
         ) for record in missed_dict]
 
         try:
