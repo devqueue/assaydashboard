@@ -7,7 +7,7 @@ def current_year():
 
 
 class Samples(models.Model):
-    AssayID = models.CharField(primary_key=True, max_length=10)
+    AssayID = models.CharField(primary_key=True, max_length=50)
     MachineID = models.CharField(max_length=100)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
@@ -26,7 +26,7 @@ class Samples(models.Model):
 
 
 class Utilization(models.Model):
-    AssayID = models.CharField(primary_key=True, max_length=10)
+    AssayID = models.CharField(primary_key=True, max_length=50)
     MachineID = models.CharField(max_length=100)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
@@ -45,7 +45,7 @@ class Utilization(models.Model):
 
 
 class Revenue(models.Model):
-    AssayID = models.CharField(primary_key=True, max_length=10)
+    AssayID = models.CharField(primary_key=True, max_length=50)
     MachineID = models.CharField(max_length=100)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
@@ -63,7 +63,7 @@ class Revenue(models.Model):
     Year = models.IntegerField(default=current_year)
 
 class MissedRevenue(models.Model):
-    AssayID = models.CharField(primary_key=True, max_length=10)
+    AssayID = models.CharField(primary_key=True, max_length=50)
     MachineID = models.CharField(max_length=100)
     Assay = models.CharField(max_length=100)
     January = models.FloatField()
@@ -82,7 +82,7 @@ class MissedRevenue(models.Model):
 
 
 class stats(models.Model):
-    AssayID = models.CharField(primary_key=True, max_length=10)
+    AssayID = models.CharField(primary_key=True, max_length=50)
     MachineID = models.CharField(max_length=100)
     FullCapacity = models.FloatField()
     RunTime = models.FloatField()
@@ -90,7 +90,7 @@ class stats(models.Model):
     Maintenance = models.FloatField()
 
 class monthlystats(models.Model):
-    AssayID = models.CharField(primary_key=True, max_length=10)
+    AssayID = models.CharField(primary_key=True, max_length=50)
     MachineID = models.CharField(max_length=100)
     MaxMonthlyhours = models.FloatField()
     MaxMonthlyRevenue = models.FloatField()
