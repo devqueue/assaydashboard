@@ -1,11 +1,13 @@
+import imp
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from .forms import CsvModelForm
 from .models import Csv
 from .processing import create_df, create_stats, calculate_revenue, calculate_utilization, get_fullcapacity, calculate_missedrevenue
 from dashboard.models import Samples, Revenue, Utilization, stats, monthlystats, MissedRevenue
 # Create your views here.
 
-
+@login_required(login_url='accounts/login_user')
 def upload_file(request):
     form = CsvModelForm(request.POST or None, request.FILES or None)
     if form.is_valid():
