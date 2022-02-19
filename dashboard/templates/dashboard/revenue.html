@@ -3,16 +3,19 @@
 {% block title %}Util{% endblock %}
 
 {% block content %}
+
 <div class="text-center d-flex align-items-center justify-content-center">
 <h3> Revenue </h3>
 </div>
 
 <br>
+<form action="" method="post"> 
+{% csrf_token %}
 <div class="row">
 
 <div class="col-md-6 pt-1">
 <label for="year">Year: </label>
-<select name="year" id="year" class="form-select" aria-label="Default select example">
+<select name="year" id="year" onchange="this.form.submit();" class="form-select form-select-sm" aria-label=".form-select-sm example">
     {% for year in years %}
     <option value="{{year}}">{{year}}</option>
     {% endfor %}
@@ -21,10 +24,105 @@
 
 <div class="col-md-6 pt-1">
 <label for="month">Month: </label>
-<select name="month" id="month" class="form-select form-select-sm" aria-label=".form-select-sm example">
+<select name="month" id="month" onchange="this.form.submit();" class="form-select form-select-sm" aria-label=".form-select-sm example">
     {% for month in Months %}
     <option value="{{month}}">{{month}}</option>
     {% endfor %}
 </select>
 </div>
+</div>
+</form>
+<br>
+<div class="chartMenu">
+    <div class="chartCard row">
+      <div class="chartBox-wide col-md-6">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+</div>
+<br>
+<br>
+<script>
+$(document).ready(function () {
+   $(function () {
+
+       let year = {{sel_year}};
+       let month = '{{sel_month}}';
+
+       $('#year').val(year);
+       $('#month').val(month);
+   });
+});
+    // setup 
+ const data = {
+      labels: [{% for i in machine_labels %} '{{i}}', {% endfor %}],
+      datasets: [{
+        label: 'Actual revenue',
+        data: [{% for i in actual_revenue %} {{i}}, {% endfor %}],
+        backgroundColor: [
+          // 'rgba(255, 26, 104, 0.2)',
+          // 'rgba(54, 162, 235, 0.2)',
+          // 'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          // 'rgba(153, 102, 255, 0.2)',
+          // 'rgba(255, 159, 64, 0.2)',
+        ],
+        borderColor: [
+          // 'rgba(255, 26, 106, 1)',
+          // 'rgba(54, 162, 235, 1)',
+          // 'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          // 'rgba(153, 102, 255, 1)',
+          // 'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1
+      },
+      {
+        label: 'Missed revenue',
+        data: [{% for i in missed_revenue %} {{i}}, {% endfor %}],
+        backgroundColor: [
+          'rgba(255, 26, 104, 0.2)',
+          // 'rgba(54, 162, 235, 0.2)',
+          // 'rgba(255, 206, 86, 0.2)',
+          // 'rgba(75, 192, 192, 0.2)',
+          // 'rgba(153, 102, 255, 0.2)',
+          // 'rgba(255, 159, 64, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 26, 106, 1)',
+          // 'rgba(54, 162, 235, 1)',
+          // 'rgba(255, 206, 86, 1)',
+          // 'rgba(75, 192, 192, 1)',
+          // 'rgba(153, 102, 255, 1
+          // 'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1
+      }
+    ]
+    };
+
+    // config 
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        scales: {
+          y: {
+            stacked: true,
+            beginAtZero: true
+          },
+          x : {
+            stacked: true
+          }
+        }
+      }
+    };
+
+    // render init block
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+ 
+</script>
 {% endblock %}

@@ -1,28 +1,31 @@
 from platform import machine
 from django.shortcuts import render
 import pandas as pd
-from dashboard.models import Utilization, Samples, Revenue, MissedRevenue
-from dashboard.serializers import UtilizationSerializer, SamplesSerializer, RevenueSerializer, MissedSerializer
+from dashboard.models import Utilization, Samples, Revenue, MissedRevenue, stats, monthlystats
+from dashboard.serializers import UtilizationSerializer, SamplesSerializer, RevenueSerializer, MissedSerializer, statsSerializer, monthlystatsSerializer
 # Create your views here.
 
 
 
 
 def indexpage(request):
+    samples_obj = Samples.objects.all()
+    revenue_obj = Revenue.objects.all()
+    samples_serializer = SamplesSerializer(samples_obj, many=True)
+    revenue_serializer = RevenueSerializer(revenue_obj, many=True)
+
+    samples_df = pd.DataFrame(samples_serializer.data)
+    revenue_df = pd.DataFrame(revenue_serializer.data)
+
     if request.method == 'POST':
 
         YEAR = request.POST['year']
         MONTH = request.POST['month']
         MACHINE = request.POST['assay']
-        
-        samples_obj = Samples.objects.all()
-        revenue_obj = Revenue.objects.all()
-        samples_serializer = SamplesSerializer(samples_obj, many=True)
-        revenue_serializer = RevenueSerializer(revenue_obj, many=True)
 
-        samples_df = pd.DataFrame(samples_serializer.data)
-        revenue_df = pd.DataFrame(revenue_serializer.data)
-
+        years = samples_df['Year'].unique()
+        machines = samples_df['MachineID'].unique()
+        months = [col for col in samples_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
 
         samples_year = samples_df.loc[samples_df['Year'] == int(YEAR)]
         machine_index = samples_year[[MONTH, 'MachineID']]
@@ -38,9 +41,9 @@ def indexpage(request):
         y = yearly_revenue.values
 
         context = {
-            'years': samples_df['Year'].unique(),
-            'Machines': samples_df['MachineID'].unique(),
-            'Months': [col for col in samples_df.columns if col not in ('AssayID', 'Assay', 'Year' , 'MachineID')],
+            'years': years,
+            'Machines': machines,
+            'Months': months,
             'sel_year': YEAR,
             'sel_month': MONTH,
             'sel_machine': MACHINE,
@@ -54,15 +57,6 @@ def indexpage(request):
         return render(request, 'dashboard/index.html', context)
 
     else:
-        samples_obj = Samples.objects.all()
-        revenue_obj = Revenue.objects.all()
-        samples_serializer = SamplesSerializer(samples_obj, many=True)
-        revenue_serializer = RevenueSerializer(revenue_obj, many=True)
-
-        samples_df = pd.DataFrame(samples_serializer.data)
-        revenue_df = pd.DataFrame(revenue_serializer.data)
-
-
         if samples_df.empty:
             return render(request, 'dashboard/index.html', {})
 
@@ -104,19 +98,215 @@ def indexpage(request):
 
 
 def sample(request):
-    if request.method == 'GET':
+    samples_obj = Samples.objects.all()
+    monthlystats_obj = monthlystats.objects.all()
 
-        return render(request, 'dashboard/sample.html')
+    samples_serializer = SamplesSerializer(samples_obj, many=True)
+    monthlystats_serializer = monthlystatsSerializer(monthlystats_obj, many=True)
+
+    samples_df = pd.DataFrame(samples_serializer.data)
+    monthlystats_df = pd.DataFrame(monthlystats_serializer.data)
+
+    
+    if request.method == 'POST':
+        YEAR = request.POST['year']
+        MONTH = request.POST['month']
+
+        years = samples_df['Year'].unique()
+        months = [col for col in samples_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+        machines = samples_df['MachineID'].unique()
+
+        samples_year = samples_df.loc[samples_df['Year'] == int(YEAR)]
+        machine_samples = samples_year[[MONTH, 'MachineID']]
+
+        maxmonthly_samples = monthlystats_df['MaxMonthSamples'].values
+        collected_samples = machine_samples[MONTH].values
+
+        missed_samples = maxmonthly_samples - collected_samples
+
+        context = {
+            'years': years,
+            'Months': months,
+            'Machines': machines,
+            'sel_year': YEAR,
+            'sel_month': MONTH,
+            'machine_labels': machine_samples['MachineID'].to_list(),
+            'collected_samples': collected_samples,
+            'missed_samples': missed_samples
+
+        }
+
+        return render(request, 'dashboard/sample.html', context)
+    else:
+        if samples_df.empty:
+            return render(request, 'dashboard/sample.html', {})
+        else:
+            years = samples_df['Year'].unique()
+            months = [col for col in samples_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+            machines = samples_df['MachineID'].unique()
+
+            samples_year = samples_df.loc[samples_df['Year'] == years[0]]
+            machine_samples = samples_year[[months[0], 'MachineID']]
+
+            maxmonthly_samples = monthlystats_df['MaxMonthSamples'].values
+            collected_samples = machine_samples[months[0]].values
+
+            missed_samples = maxmonthly_samples - collected_samples
+
+            context = {
+                'years': years,
+                'Months': months,
+                'Machines': machines,
+                'sel_year': years[0],
+                'sel_month': months[0],
+                'machine_labels': machine_samples['MachineID'].to_list(),
+                'collected_samples': machine_samples[months[0]].to_list(),
+                'missed_samples': missed_samples
+                
+            }
+
+            return render(request, 'dashboard/sample.html', context)
+
 
 def util(request):
-    if request.method == 'GET':
+    util_obj = Utilization.objects.all()
+    monthlystats_obj = monthlystats.objects.all()
 
-        return render(request, 'dashboard/utilization.html')
+    util_serializer = UtilizationSerializer(util_obj, many=True)
+    monthlystats_serializer = monthlystatsSerializer(monthlystats_obj, many=True)
+
+    util_df = pd.DataFrame(util_serializer.data)
+    monthlystats_df = pd.DataFrame(monthlystats_serializer.data)
+
+    if request.method == 'POST':
+        YEAR = request.POST['year']
+        MONTH = request.POST['month']
+
+        years = util_df['Year'].unique()
+        months = [col for col in util_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+        machines = util_df['MachineID'].unique()
+
+        samples_year = util_df.loc[util_df['Year'] == int(YEAR)]
+        machine_util = samples_year[[MONTH, 'MachineID']]
+
+        maxmonthly_util = monthlystats_df['MaxMonthlyhours'].values
+        actual_utilizition = machine_util[MONTH].values
+
+        missed_util = maxmonthly_util - actual_utilizition
+
+        context = {
+            'years': years,
+            'Months': months,
+            'Machines': machines,
+            'sel_year': YEAR,
+            'sel_month': MONTH,
+            'machine_labels': machine_util['MachineID'].to_list(),
+            'actual_utilization': actual_utilizition,
+            'missed_util': missed_util
+
+        }
+
+        return render(request, 'dashboard/utilization.html', context)
+    else:
+        if util_df.empty:
+            return render(request, 'dashboard/utilization.html', {})
+        else:
+            print("hello")
+            years = util_df['Year'].unique()
+            months = [col for col in util_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+            machines = util_df['MachineID'].unique()
+
+            samples_year = util_df.loc[util_df['Year'] == years[0]]
+            machine_util = samples_year[[months[0], 'MachineID']]
+
+            maxmonthly_util = monthlystats_df['MaxMonthlyhours'].values
+            actual_utilizition = machine_util[months[0]].values
+
+            missed_util = maxmonthly_util - actual_utilizition
+
+            context = {
+            'years': years,
+            'Months': months,
+            'Machines': machines,
+            'sel_year': years[0],
+            'sel_month': months[0],
+            'machine_labels': machine_util['MachineID'].to_list(),
+            'actual_utilization': actual_utilizition,
+            'missed_util': missed_util
+
+            }
+
+            return render(request, 'dashboard/utilization.html', context)
+
 
 def revenue(request):
-    if request.method == 'GET':
+    revenue_obj = Revenue.objects.all()
+    monthlystats_obj = monthlystats.objects.all()
 
-        return render(request, 'dashboard/revenue.html')
+    revenue_serializer = RevenueSerializer(revenue_obj, many=True)
+    monthlystats_serializer = monthlystatsSerializer(monthlystats_obj, many=True)
+
+    revenue_df = pd.DataFrame(revenue_serializer.data)
+    monthlystats_df = pd.DataFrame(monthlystats_serializer.data)
+
+    if request.method == 'POST':
+        YEAR = request.POST['year']
+        MONTH = request.POST['month']
+
+        years = revenue_df['Year'].unique()
+        months = [col for col in revenue_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+        machines = revenue_df['MachineID'].unique()
+
+        samples_year = revenue_df.loc[revenue_df['Year'] == int(YEAR)]
+        machine_revenue = samples_year[[MONTH, 'MachineID']]
+
+        maxmonthly_revenue = monthlystats_df['MaxMonthlyRevenue'].values
+        actual_revenue = machine_revenue[MONTH].values
+
+        missed_revenue = maxmonthly_revenue - actual_revenue
+
+        context = {
+            'years': years,
+            'Months': months,
+            'Machines': machines,
+            'sel_year': YEAR,
+            'sel_month': MONTH,
+            'machine_labels': machine_revenue['MachineID'].to_list(),
+            'actual_revenue': actual_revenue,
+            'missed_revenue': missed_revenue
+
+        }
+
+        return render(request, 'dashboard/revenue.html', context)
+    else:
+        if revenue_df.empty:
+            return render(request, 'dashboard/revenue.html')
+        else:
+            years = revenue_df['Year'].unique()
+            months = [col for col in revenue_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+            machines = revenue_df['MachineID'].unique()
+
+            samples_year = revenue_df.loc[revenue_df['Year'] == years[0]]
+            machine_revenue = samples_year[[months[0], 'MachineID']]
+
+            maxmonthly_revenue = monthlystats_df['MaxMonthlyRevenue'].values
+            actual_revenue = machine_revenue[months[0]].values
+
+            missed_revenue = maxmonthly_revenue - actual_revenue
+            print(maxmonthly_revenue)
+            print(actual_revenue)
+            context = {
+                'years': years,
+                'Months': months,
+                'Machines': machines,
+                'sel_year': years[0],
+                'sel_month': months[0],
+                'machine_labels': machine_revenue['MachineID'].to_list(),
+                'actual_revenue': actual_revenue,
+                'missed_revenue': missed_revenue
+
+            }
+            return render(request, 'dashboard/revenue.html', context)
 
 
 
