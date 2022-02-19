@@ -80,11 +80,10 @@ def indexpage(request):
             revenue_year = revenue_df.loc[revenue_df['Year'] == years[0]]
             revenue_only = revenue_year.loc[:, ~((revenue_year.columns == 'Assay') | (revenue_year.columns == 'Year') | (revenue_year.columns == 'MachineID') )]
 
-            yearly_revenue = revenue_only.sum(axis=1)
+            yearly_revenue = revenue_only.sum(axis=1, numeric_only=True)
             revenue_labels = revenue_year['MachineID']
             y = yearly_revenue.values
 
-            print(revenue_only)
 
             context = {
                 'years': years,
