@@ -166,7 +166,7 @@ def upload_file(request):
                 fields=[ 'Assay', 'January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December', 'Year'])
         except:
-            messages.success(request, ("Invalid file data. An error occured, please upload again"))
+            messages.error(request, ("Invalid file data. An error occured, please upload again"))
         obj.activated = True
         obj.save()
     return render(request, 'upload/upload.html', {'form': form})
