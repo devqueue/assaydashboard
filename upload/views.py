@@ -165,6 +165,7 @@ def upload_file(request):
                 MissedRevenue.objects.bulk_update(Missed_instances, 
                 fields=[ 'Assay', 'January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December', 'Year'])
+            messages.success(request, ("File uploaded sucessfully"))
         except:
             messages.error(request, ("Invalid file data. An error occured, please upload again"))
         obj.activated = True
