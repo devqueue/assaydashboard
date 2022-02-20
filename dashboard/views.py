@@ -211,7 +211,6 @@ def util(request):
         if util_df.empty:
             return render(request, 'dashboard/utilization.html', {})
         else:
-            print("hello")
             years = util_df['Year'].unique()
             months = [col for col in util_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
             machines = util_df['MachineID'].unique()
@@ -293,8 +292,6 @@ def revenue(request):
             actual_revenue = machine_revenue[months[0]].values
 
             missed_revenue = maxmonthly_revenue - actual_revenue
-            print(maxmonthly_revenue)
-            print(actual_revenue)
             context = {
                 'years': years,
                 'Months': months,
