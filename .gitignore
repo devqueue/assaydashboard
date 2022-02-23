@@ -8,6 +8,7 @@ media/
 *.so
 
 # Distribution / packaging
+migrations/
 .Python
 build/
 develop-eggs/
