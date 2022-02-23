@@ -1,6 +1,6 @@
 [client]
-database = Assaydash
+database = dbname
 host = localhost
-user = admin
-password = root
+user = root
+password = pass
 default-character-set = utf8
