@@ -58,9 +58,10 @@ def sample(request):
     if request.method == 'POST':
         YEAR = request.POST['year']
         MONTH = request.POST['month']
+        YEAR2 = request.POST['year2']
+        MACHINE = request.POST['assay2']
 
-        context = sample_context(YEAR, MONTH, samples_df, monthlystats_df)
-
+        context = sample_context(YEAR, MONTH, YEAR2, MACHINE, samples_df, monthlystats_df) 
         return render(request, 'dashboard/sample.html', context)
     else:
         if samples_df.empty:
@@ -68,7 +69,9 @@ def sample(request):
         else:
             YEAR = years[0]
             MONTH = months[0]
-            context = sample_context(YEAR, MONTH, samples_df, monthlystats_df)
+            YEAR2 = years[0]
+            MACHINE = machines[0]
+            context = sample_context(YEAR, MONTH, YEAR2, MACHINE, samples_df, monthlystats_df)
 
             return render(request, 'dashboard/sample.html', context)
 
@@ -90,8 +93,10 @@ def util(request):
     if request.method == 'POST':
         YEAR = request.POST['year']
         MONTH = request.POST['month']
+        YEAR2 = request.POST['year2']
+        MACHINE = request.POST['assay2']
 
-        context = util_context(YEAR, MONTH, util_df, monthlystats_df)
+        context = util_context(YEAR, MONTH, YEAR2 , MACHINE, util_df, monthlystats_df)
 
         return render(request, 'dashboard/utilization.html', context)
     else:
@@ -100,8 +105,10 @@ def util(request):
         else:
             YEAR = years[0]
             MONTH = months[0]
+            YEAR2 = years[0]
+            MACHINE = machines[0]
 
-            context = util_context(YEAR, MONTH, util_df, monthlystats_df)
+            context = util_context(YEAR, MONTH, YEAR2 , MACHINE, util_df, monthlystats_df)
 
             return render(request, 'dashboard/utilization.html', context)
 
@@ -123,8 +130,10 @@ def revenue(request):
     if request.method == 'POST':
         YEAR = request.POST['year']
         MONTH = request.POST['month']
+        YEAR2 = request.POST['year2']
+        MACHINE = request.POST['assay2']
 
-        context = revenue_context(YEAR, MONTH, revenue_df, monthlystats_df)
+        context = revenue_context(YEAR, MONTH, YEAR2 , MACHINE, revenue_df, monthlystats_df)
 
         return render(request, 'dashboard/revenue.html', context)
     else:
@@ -133,7 +142,10 @@ def revenue(request):
         else:
             YEAR = years[0]
             MONTH = months[0]
-            context = revenue_context(YEAR, MONTH, revenue_df, monthlystats_df)
+            YEAR2 = years[0]
+            MACHINE = machines[0]
+
+            context = revenue_context(YEAR, MONTH, YEAR2 , MACHINE, revenue_df, monthlystats_df)
 
             return render(request, 'dashboard/revenue.html', context)
 
