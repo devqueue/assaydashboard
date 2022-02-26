@@ -10,14 +10,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'tau4_(4929b49twphg)0cg3@cg!_(#33pzoaa0a5zr@^-76$qb'
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
+    SECRET_KEY = f.read().strip()
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+# # HTTPS settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+
+# # HSTS settings
+SECURE_HSTS_SECONDS = 3153600   # 1 year
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 # Application definition
 
@@ -118,6 +127,8 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-    )
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+#     )

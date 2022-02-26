@@ -48,8 +48,14 @@ Just like any django project all the database connection `settings.py` file, you
 1. Configuring the allowed host
     In the 'djangobackend/settings.py` find 
     ```
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = [
+        'hello.com',
+        'www.hello.com',
+    ]
     ``` 
-    specify the domain and sub-domain for your website or the ip address. For more info chechout Django's [Deployment checklist](https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#deployment-checklist)  
+    specify the domain and sub-domain for your website.
+    
+2. Setup an SSL certificate 
 
-2. 
+
+     For more info chechout Django's [Deployment checklist](https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#deployment-checklist)  
