@@ -45,8 +45,8 @@ Just like any django project all the database connection `settings.py` file, you
 
 ## Deploying the app:
 
-1. Configuring the allowed host
-    In the 'djangobackend/settings.py` find 
+1. Configuring the allowed host: <br/>
+    In the `djangobackend/settings.py` find 
     ```
     ALLOWED_HOSTS = [
         'hello.com',
@@ -54,8 +54,11 @@ Just like any django project all the database connection `settings.py` file, you
     ]
     ``` 
     specify the domain and sub-domain for your website.
+    For more info chechout Django's [Deployment checklist](https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#deployment-checklist)  
     
 2. Setup an SSL certificate 
 
+3. Edit `djangoapp.conf` <br/>
+    Change the port, hostIP or domain, path, etc...
 
-     For more info chechout Django's [Deployment checklist](https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#deployment-checklist)  
+
