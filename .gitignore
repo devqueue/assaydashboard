@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 1.postdata
 media/
+data/
 # C extensions
 *.so
 testing/
