@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import pandas as pd
-from dashboard.models import Utilization, Samples, Revenue, MissedRevenue, stats, monthlystats
-from dashboard.serializers import UtilizationSerializer, SamplesSerializer, RevenueSerializer, MissedSerializer, statsSerializer, monthlystatsSerializer
+from dashboard.models import Utilization, Samples, Revenue, monthlystats
+from dashboard.serializers import UtilizationSerializer, SamplesSerializer, RevenueSerializer, monthlystatsSerializer
 from dashboard.viewfuncs import index_context, sample_context, util_context, revenue_context
 # Create your views here.
 
@@ -15,9 +15,10 @@ def indexpage(request):
     samples_df = pd.DataFrame(samples_serializer.data)
     revenue_df = pd.DataFrame(revenue_serializer.data)
 
-    years = samples_df['Year'].unique()
-    machines = samples_df['MachineID'].unique()
-    months = [col for col in samples_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+    if not samples_df.empty:
+        years = samples_df['Year'].unique()
+        machines = samples_df['MachineID'].unique()
+        months = [col for col in samples_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
 
     if request.method == 'POST':
 
@@ -50,9 +51,10 @@ def sample(request):
     samples_df = pd.DataFrame(samples_serializer.data)
     monthlystats_df = pd.DataFrame(monthlystats_serializer.data)
 
-    years = samples_df['Year'].unique()
-    months = [col for col in samples_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
-    machines = samples_df['MachineID'].unique()
+    if not samples_df.empty:
+        years = samples_df['Year'].unique()
+        months = [col for col in samples_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+        machines = samples_df['MachineID'].unique()
 
     
     if request.method == 'POST':
@@ -86,9 +88,10 @@ def util(request):
     util_df = pd.DataFrame(util_serializer.data)
     monthlystats_df = pd.DataFrame(monthlystats_serializer.data)
 
-    years = util_df['Year'].unique()
-    months = [col for col in util_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
-    machines = util_df['MachineID'].unique()
+    if not util_df.empty:
+        years = util_df['Year'].unique()
+        months = [col for col in util_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+        machines = util_df['MachineID'].unique()
 
     if request.method == 'POST':
         YEAR = request.POST['year']
@@ -123,9 +126,10 @@ def revenue(request):
     revenue_df = pd.DataFrame(revenue_serializer.data)
     monthlystats_df = pd.DataFrame(monthlystats_serializer.data)
 
-    years = revenue_df['Year'].unique()
-    months = [col for col in revenue_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
-    machines = revenue_df['MachineID'].unique()
+    if not revenue_df.empty:
+        years = revenue_df['Year'].unique()
+        months = [col for col in revenue_df.columns if col not in ('AssayID', 'Assay', 'Year', 'MachineID')]
+        machines = revenue_df['MachineID'].unique()
 
     if request.method == 'POST':
         YEAR = request.POST['year']
