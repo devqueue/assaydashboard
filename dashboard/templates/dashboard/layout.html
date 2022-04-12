@@ -5,16 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Dashboard {% block title %}{% endblock %}</title>
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css">
-    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css">
+    <script src="{% static 'assets/js/kit-fontawesome.js' %}" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'assets/css/loopple/nucleo-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/loopple/nucleo-svg.css' %}">
     <link rel="icon" href="{% static 'favicon.ico' %}">
     <!-- important stylesheet -->
     <link rel="stylesheet" href="{% static 'assets/css/loopple/dashboard.css' %} ">
     <link rel="stylesheet" href="{% static 'assets/css/loopple/loopple.css' %} ">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'assets/js/chart.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <style>
       .chartCard {
         display: flex;
@@ -218,9 +218,9 @@
         </div>
 
     </div>
-    <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/core/popper.min.js"></script>
-    <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/core/bootstrap.min.js"></script>
-    <script src="https://demos.creative-tim.com/soft-ui-dashboard/assets/js/soft-ui-dashboard.min.js?v=1.0.2"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/soft-ui-dashboard.min.js' %}"></script>
     <script src="{% static 'assets/js/loopple/loopple.js' %}"></script>
 </body>
 </html>
