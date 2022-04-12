@@ -9,7 +9,6 @@ data/
 *.so
 testing/
 # Distribution / packaging
-migrations/
 .Python
 build/
 develop-eggs/
